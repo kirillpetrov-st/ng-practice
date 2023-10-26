@@ -7,15 +7,11 @@ import { Component, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges } from
       add todo
     </p>
     <input (keydown.enter)="addTodo($event)">
-    <!-- <button (click)=""></button> -->
-    <!-- <br>
-    <input (keyup)="onKey($event)">
-    <p>{{values}}</p> -->
     <div *ngIf="this.todos">
       {{ this.todos }}
     </div>
     <ul>
-      <li *ngFor="let todo in this.todos" [style.text-decoration]="textDecoration">
+      <li *ngFor="let todo of this.todos" [style.text-decoration]="textDecoration">
         <button (click)="triggerTodo()">Done!/Undone</button>{{ todo }}
       </li>
     </ul>
@@ -24,13 +20,20 @@ import { Component, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges } from
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TodosComponent implements OnChanges {
+  completed = false
   textDecoration = ''
   ngOnChanges() {
 
   }
 
   triggerTodo() {
-    this.textDecoration = "line-through"
+    this.completed = !this.completed
+
+    if(!this.completed) {
+      this.textDecoration = "line-through"
+    } else {
+      this.textDecoration = ""
+    }
   }
 
   todos = ['todo 1', 'todo 2'];
